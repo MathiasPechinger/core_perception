@@ -61,9 +61,9 @@ ContourTracker::ContourTracker()
 	}
 	else
 	{
-		sub_detected_objects = nh.subscribe("/detection/lidar_detector/objects", 1, &ContourTracker::callbackGetDetectedObjects, this);
+		sub_detected_objects = nh.subscribe(m_input_topic, 1, &ContourTracker::callbackGetDetectedObjects, this);
 	}
-	pub_AllTrackedObjects = nh.advertise<autoware_msgs::DetectedObjectArray>("/detection/contour_tracker/objects", 1);
+	pub_AllTrackedObjects = nh.advertise<autoware_msgs::DetectedObjectArray>(m_output_topic, 1);
 	sub_current_pose = nh.subscribe("/current_pose",   1, &ContourTracker::callbackGetCurrentPose, 	this);
 
 	if(m_VelocitySource == 0)
@@ -170,6 +170,9 @@ void ContourTracker::ReadNodeParams()
 	_nh.getParam("/lidar_kf_contour_track/max_association_size_diff" , m_ObstacleTracking.m_MAX_ASSOCIATION_SIZE_DIFF);
 	_nh.getParam("/lidar_kf_contour_track/enableLogging" , m_Params.bEnableLogging);
 	_nh.getParam("/lidar_kf_contour_track/enableInternalVisualization" , m_Params.bEnableInternalVisualization);
+
+	_nh.getParam("/lidar_kf_contour_track/tracker_input_topic"		, m_input_topic);
+	_nh.getParam("/lidar_kf_contour_track/tracker_output_topic"		, m_output_topic);
 
 
 	int tracking_type = 0;
