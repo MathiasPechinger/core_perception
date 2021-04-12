@@ -319,14 +319,21 @@ namespace trafficlight_recognizer
 
 	void FeatProjKML::LoadMap(const std::string& file_name)
 	{
-		//PlannerHNS::KmlMapLoader kml_loader;
-		//kml_loader.LoadKML(file_name, m_Map);
 		/*****
-			TODO: Add custom LoadMap function or Class for OpenDrive
-		*****/
-		PlannerHNS::OpenDriveMapLoader xodr_loader;
-		xodr_loader.EnableLaneStitching();
-		xodr_loader.LoadXODR(file_name, m_Map);
+		TODO: Add custom LoadMap function or Class for OpenDrive
+		*****/	
+		if(m_MapType == PlannerHNS::MAP_KML_FILE)
+		{
+			PlannerHNS::KmlMapLoader kml_loader;
+			kml_loader.LoadKML(file_name, m_Map);
+		}
+		if(m_MapType == PlannerHNS::MAP_OPEN_DRIVE_FILE)
+		{
+			PlannerHNS::OpenDriveMapLoader xodr_loader;
+			xodr_loader.EnableLaneStitching();
+			xodr_loader.LoadXODR(file_name, m_Map);
+		}
+
 		PlannerHNS::MappingHelpers::ConvertVelocityToMeterPerSecond(m_Map);
 		if(m_Map.trafficLights.size() > 0)
 		{
