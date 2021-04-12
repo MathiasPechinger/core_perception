@@ -155,8 +155,7 @@ namespace trafficlight_recognizer
 	  autoware_msgs::Signals signalsInFrame;
 	  for (const auto& signal_map : m_Map.trafficLights)
 	  {
-		// std::cout << ">>> SCREAM!!!! ++++ >>> Light: " << signal_map.id << " (" << signal_map.pose.pos.x <<", " << signal_map.pose.pos.y  << ")" << std::endl;
-	    Eigen::Vector3f signalcenter(signal_map.pose.pos.x, signal_map.pose.pos.y, signal_map.pose.pos.z);
+		Eigen::Vector3f signalcenter(signal_map.pose.pos.x, signal_map.pose.pos.y, signal_map.pose.pos.z);
 	    Eigen::Vector3f signalcenterx(signal_map.pose.pos.x, signal_map.pose.pos.y, signal_map.pose.pos.z + m_SignalLampDefaultRaius);
 
 	    int u=0, v=0;
@@ -167,7 +166,6 @@ namespace trafficlight_recognizer
 	      project2(signalcenterx, &ux, &vx, false);
 	      //radius = static_cast<int>(hypot(u-ux, v-vx));
 	      radius = static_cast<int>((Eigen::Vector2f(ux - u, vx - v)).norm());
-	    //   std::cout << ">>> TEST 234 Proj2:(ux,vx): " << ux << ", " << vx << std::endl;
 	      //std::cout << ">>> (u,v,r): " << u << ", " << v << ", " << radius << std::endl;
 
 	      autoware_msgs::ExtractedPosition sign;
@@ -228,7 +226,7 @@ namespace trafficlight_recognizer
 	      double original_hang = -signal_map.horizontal_angle - 180.0;
 
 	      double signal_angle = GetSignalAngleInCameraSystem(original_hang + 180.0f, signal_map.vertical_angle + 180.0f);
-	     	// std::cout << ">>> Angles (hang,vang,signal): " << original_hang + 180.0f << ", " << signal_map.vertical_angle + 180.0f << ", " << signal_angle << std::endl;
+	      // std::cout << ">>> Angles (hang,vang,signal): " << original_hang + 180.0f << ", " << signal_map.vertical_angle + 180.0f << ", " << signal_angle << std::endl;
 	      // signal_angle will be zero if signal faces to x-axis
 	      // Target signal should be face to -50 <= z-axis (= 90 degree) <= +50
 	      if (isRange(-50, 50, signal_angle - 90))
@@ -259,18 +257,11 @@ namespace trafficlight_recognizer
 	  float _u = _pt.x() * fx_ / _pt.z() + cx_;
 	  float _v = _pt.y() * fy_ / _pt.z() + cy_;
 
-	//   std::cout << ">>> SCREAM2 +++ Proj2:(fx_,fy_): " << fx_ << ", " << fy_ << std::endl;
-
-	//   std::cout << ">>> SCREAM2 +++ Point signalcenter:(pt.x, pt.y, pt.z): " << _pt.x() << ", " << _pt.y() << ", " << _pt.z() << std::endl;
-
-	//   std::cout << ">>> SCREAM2 +++ Proj2:(ux,vx): " << _u << ", " << _v << std::endl;
-
 	  *u = static_cast<int>(_u);
 	  *v = static_cast<int>(_v);
 	  if (*u < 0 || image_width_ < *u || *v < 0 || image_height_ < *v || _pt.z() < nearPlane || farPlane < _pt.z())
 	  {
-		//  std::cout << ">>> IFCASE +++ Proj2:((*u < 0), (*v < 0), (image_width_ < *u), (_pt.z() < nearPlane), ( farPlane < _pt.z()) )): " << (*u < 0) << ", " << (*v < 0) << ", " << (image_width_ < *u) << ", " << (_pt.z() < nearPlane) << ", " << ( farPlane < _pt.z()) << std::endl; 
-	    *u = -1, *v = -1;
+		*u = -1, *v = -1;
 	    return false;
 	  }
 
