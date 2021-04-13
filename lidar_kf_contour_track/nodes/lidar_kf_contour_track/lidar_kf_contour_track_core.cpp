@@ -19,6 +19,7 @@
 #include "op_planner/MappingHelpers.h"
 #include "op_planner/PlannerH.h"
 #include "op_planner/KmlMapLoader.h"
+#include "op_planner/OpenDriveMapLoader.h"
 #include "op_planner/Lanelet2MapLoader.h"
 #include "op_planner/VectorMapLoader.h"
 #include <pcl_ros/transforms.h>
@@ -261,6 +262,10 @@ void ContourTracker::ReadCommonParams()
 	else if(iSource == 4)
 	{
 		m_MapType = PlannerHNS::MAP_KML_FILE_NAME;
+	}
+	else if(iSource == 6)
+	{
+		m_MapType = PlannerHNS::MAP_OPEN_DRIVE_FILE;
 	}
 
 
@@ -986,6 +991,19 @@ void ContourTracker::LoadMap()
 			m_Map.Clear();
 			vec_loader.LoadFromData(m_MapRaw, m_Map);
 			PlannerHNS::MappingHelpers::ConvertVelocityToMeterPerSecond(m_Map);
+		}
+	}
+	else if(m_MapType == PlannerHNS::MAP_OPEN_DRIVE_FILE && !bMap)
+	{
+		bMap = true;
+		PlannerHNS::OpenDriveMapLoader xodr_loader;
+		m_Map.Clear();
+		xodr_loader.EnableLaneStitching();
+		xodr_loader.LoadXODR(m_MapPath, m_Map);
+		if(m_Map.roadSegments.size() > 0)
+		{
+			bMap = true;
+			std::cout << " ******* Map Is Loaded successfully from the tracker, OpenDrive File." << std::endl;
 		}
 	}
 }
