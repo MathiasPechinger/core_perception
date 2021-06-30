@@ -338,11 +338,11 @@ namespace trafficlight_recognizer
 		if(m_Map.trafficLights.size() > 0)
 		{
 			bMap = true;
-			std::cout << " ******* KML Map is loaded successfully from feat_proj, KML File. Contains traffic lights: " << m_Map.trafficLights.size() << std::endl;
+			// std::cout << " ******* KML Map is loaded successfully from feat_proj, KML File. Contains traffic lights: " << m_Map.trafficLights.size() << std::endl;
 		}
 		else
 		{
-			std::cout << " ******* KML Map loaded in feat_proj does not Contains traffic lights: " << m_Map.trafficLights.size() << std::endl;
+			// std::cout << " ******* KML Map loaded in feat_proj does not Contains traffic lights: " << m_Map.trafficLights.size() << std::endl;
 		}
 	}
 
