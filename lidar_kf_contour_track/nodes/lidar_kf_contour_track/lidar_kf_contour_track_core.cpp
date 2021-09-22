@@ -60,9 +60,9 @@ ContourTracker::ContourTracker()
 	}
 	else
 	{
-		sub_detected_objects = nh.subscribe("/detection/lidar_detector/objects", 1, &ContourTracker::callbackGetDetectedObjects, this);
+		sub_detected_objects = nh.subscribe(m_input_topic, 1, &ContourTracker::callbackGetDetectedObjects, this);
 	}
-	pub_AllTrackedObjects = nh.advertise<autoware_msgs::DetectedObjectArray>("/detection/contour_tracker/objects", 1);
+	pub_AllTrackedObjects = nh.advertise<autoware_msgs::DetectedObjectArray>(m_output_topic, 1);
 	sub_current_pose = nh.subscribe("/current_pose",   1, &ContourTracker::callbackGetCurrentPose, 	this);
 
 	m_VelHandler.InitVelocityHandler(nh, PlannerHNS::CAR_BASIC_INFO(), &m_VehicleStatus, &m_CurrentPos);
