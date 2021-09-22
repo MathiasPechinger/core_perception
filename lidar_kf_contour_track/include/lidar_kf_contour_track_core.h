@@ -32,8 +32,10 @@
 #include <jsk_recognition_msgs/BoundingBoxArray.h>
 #include <autoware_msgs/CloudClusterArray.h>
 #include <autoware_msgs/DetectedObjectArray.h>
+#include <autoware_msgs/VehicleStatus.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <visualization_msgs/MarkerArray.h>
+#include <autoware_lanelet2_msgs/MapBin.h>
 
 namespace ContourTrackerNS
 {
@@ -143,6 +145,8 @@ protected:
 	tf::TransformListener tf_listener;
 	tf::StampedTransform m_local2global;
 	std_msgs::Header m_InputHeader;
+	std::string m_input_topic;
+	std::string m_output_topic;
 
 	//ROS subscribers
 	ros::NodeHandle nh;

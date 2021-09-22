@@ -4,21 +4,22 @@ project(trafficlight_recognizer)
 find_package(autoware_build_flags REQUIRED)
 
 find_package(catkin REQUIRED COMPONENTS
-  autoware_msgs
-  cmake_modules
-  cv_bridge
-  geometry_msgs
-  lanelet2_extension
-  libvectormap
-  roscpp
-  roslint
-  sensor_msgs
-  std_msgs
-  tf
-  vector_map
-  vector_map_server
-  visualization_msgs
-)
+        cmake_modules
+        cv_bridge
+        geometry_msgs
+        libvectormap
+        roscpp
+        roslint
+        sensor_msgs
+        std_msgs
+        tf
+        vector_map_server
+        visualization_msgs
+        autoware_msgs
+        vector_map
+        lanelet2_extension
+        op_planner
+        )
 
 find_package(OpenCV REQUIRED)
 find_package(Eigen3 QUIET)
@@ -126,11 +127,23 @@ add_executable(
   nodes/feat_proj_lanelet2/feat_proj_lanelet2_node.cpp
 )
 
-target_link_libraries(
-  feat_proj_lanelet2
-  ${catkin_LIBRARIES}
-  ${OpenCV_LIBS}
-)
+add_dependencies(feat_proj_lanelet2
+        ${catkin_EXPORTED_TARGETS}
+        )
+        
+add_executable(feat_proj_kml
+        nodes/feat_proj_kml/feat_proj_kml_core.cpp
+        nodes/feat_proj_kml/feat_proj_kml.cpp
+        )
+
+target_link_libraries(feat_proj_kml
+        ${catkin_LIBRARIES}
+        ${OpenCV_LIBS}
+        )
+
+add_dependencies(feat_proj_kml
+        ${catkin_EXPORTED_TARGETS}
+        )
 
 add_dependencies(
   feat_proj_lanelet2
@@ -232,7 +245,7 @@ target_link_libraries(
 )
 
 install(
-  TARGETS region_tlr feat_proj tlr_tuner feat_proj_lanelet2 roi_extractor label_maker libcontext tl_switch
+  TARGETS region_tlr feat_proj tlr_tuner feat_proj_lanelet2 feat_proj_kml roi_extractor label_maker libcontext tl_switch
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -362,5 +375,6 @@ if(CATKIN_ENABLE_TESTING)
   target_link_libraries(test-feat_proj_lanelet2
     ${catkin_LIBRARIES}
     ${OpenCV_LIBS}
-  )
-endif()
+    )  
+    
+endif ()
