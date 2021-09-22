@@ -121,15 +121,15 @@ add_dependencies(
   ${catkin_EXPORTED_TARGETS}
 )
 
-add_executable(
-  feat_proj_lanelet2
-  nodes/feat_proj_lanelet2/feat_proj_lanelet2_core.cpp
-  nodes/feat_proj_lanelet2/feat_proj_lanelet2_node.cpp
-)
+# add_executable(
+#   feat_proj_lanelet2
+  # nodes/feat_proj_lanelet2/feat_proj_lanelet2_core.cpp
+  # nodes/feat_proj_lanelet2/feat_proj_lanelet2_node.cpp
+# )
 
-add_dependencies(feat_proj_lanelet2
-        ${catkin_EXPORTED_TARGETS}
-        )
+# add_dependencies(feat_proj_lanelet2
+#         ${catkin_EXPORTED_TARGETS}
+#         )
         
 add_executable(feat_proj_kml
         nodes/feat_proj_kml/feat_proj_kml_core.cpp
@@ -145,10 +145,10 @@ add_dependencies(feat_proj_kml
         ${catkin_EXPORTED_TARGETS}
         )
 
-add_dependencies(
-  feat_proj_lanelet2
-  ${catkin_EXPORTED_TARGETS}
-)
+# add_dependencies(
+#   feat_proj_lanelet2
+#   ${catkin_EXPORTED_TARGETS}
+# )
 
 ### tlr_tuner ###
 EXECUTE_PROCESS(
@@ -245,7 +245,7 @@ target_link_libraries(
 )
 
 install(
-  TARGETS region_tlr feat_proj tlr_tuner feat_proj_lanelet2 feat_proj_kml roi_extractor label_maker libcontext tl_switch
+  TARGETS region_tlr feat_proj tlr_tuner feat_proj_kml roi_extractor label_maker libcontext tl_switch
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
