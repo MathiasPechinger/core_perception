@@ -800,7 +800,7 @@ void ContourTracker::CalculateTTC(const std::vector<PlannerHNS::DetectedObject>&
 
 void ContourTracker::MainLoop()
 {
-	ros::Rate loop_rate(10);
+	ros::Rate loop_rate(100);
 	while (ros::ok())
 	{
 		if(!bCommonParams)
